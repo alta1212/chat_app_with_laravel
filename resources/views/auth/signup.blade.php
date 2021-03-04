@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tinno - HTML5 Chat App Template</title>
+    <title>Tinno chat</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{{asset('dist/media/img/favicon.png')}}" type="image/png">
@@ -23,7 +23,7 @@
     <!-- Landing page styles -->
     <link rel="stylesheet" href="{{asset('dist/css/landing-page.min.css')}}">
 </head>
-<body class="auth" style="background: url(dist/media/img/auth.jpg)">
+<body class="auth" style="background: url(https://static.fandomspot.com/images/08/8574/00-featured-tom-reading-newspaper-meme-template-preview.jpg)">
 
 <div class="form-wrapper">
 
@@ -33,7 +33,7 @@
     </div>
     <!-- ./ logo -->
 
-    <h5>Create account</h5>
+    <h5>Đăng ký</h5>
 
     <!-- form -->
     <form action="{{route('auth.createUser')}}" method="POST">
@@ -45,27 +45,27 @@
             <div class="alert alert-danger">{{ Session::get('loi') }}</div>
         @endif
         <div class="form-group">
-            <input value="{{old('nameuser')}}" type="text" name="nameuser" class="form-control" placeholder="Tên của bạn"   autofocus>
+            <input value="{{old('nameuser')}}" type="text" maxlength="20" name="nameuser" class="form-control" placeholder="Tên của bạn"   autofocus>
             @error('nameuser')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
         
         <div class="form-group">
-            <input value="{{old('email')}}" type="text" name="email" class="form-control" placeholder="Email" >
+            <input value="{{old('email')}}" type="text" maxlength="50" name="email" class="form-control" placeholder="Email" >
             @error('email')
                 <div class="alert alert-danger ">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
-            <input  type="password" name="password" class="form-control" placeholder="Mật khẩu" >
+            <input  type="password" name="password" maxlength="100" class="form-control" placeholder="Mật khẩu" >
             @error('password')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
-        <button class="btn btn-primary">Sign Up</button>
+        <button class="btn btn-primary">Đăng ký !</button>
         <div class="my-5">
-            Already have an account? <a href="login">Sign in now!</a>
+            Đã có tài khoản? <a href="login">Đăng nhập!</a>
         </div>
     </form>
     <!-- ./ form -->

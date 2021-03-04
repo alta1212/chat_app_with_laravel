@@ -18,7 +18,7 @@ class checkLogin
     {
         if(!session()->has('id'))
         {
-            return redirect("login")->with("loi","bạn cần đăng nhập trước");
+            return redirect("login")->with("loi","Bạn cần đăng nhập trước");
         }
         return $next($request);
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\chatcontroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,4 +23,7 @@ Route::get('/signup', [UserController::class,'signup'])->middleware("isLoginNow"
 Route::post('/createUser', [UserController::class,'createUser'])->name('auth.createUser');
 Route::post('/doLogin', [UserController::class,'doLogin'])->name('auth.doLogin');
 Route::get('/profile', [UserController::class,'profile'])->middleware("logIn");
-
+Route::get('/logout', [UserController::class,'logout']);
+Route::get('/chat', [chatcontroller::class,'chat'])->middleware("logIn");
+Route::post('/updateDataU', [UserController::class,'updateDataU'])->name('Main.updateDataU');
+Route::get('/loadMessengerBox', [chatcontroller::class,'loadMessengerBox'])->middleware("logIn");

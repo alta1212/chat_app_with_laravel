@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tinno - HTML5 Chat App Template</title>
+    <title>Tinno chat</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{{asset('dist/media/img/favicon.png')}}" type="image/png">
@@ -23,7 +23,7 @@
     <!-- Landing page styles -->
     <link rel="stylesheet" href="{{asset('dist/css/landing-page.min.css')}}">
 </head>
-<body class="auth" style="background: url(dist/media/img/auth.jpg)">
+<body class="auth" style="background: url(https://static.fandomspot.com/images/08/8574/00-featured-tom-reading-newspaper-meme-template-preview.jpg)">
 
 <div class="form-wrapper">
 
@@ -33,13 +33,16 @@
     </div>
     <!-- ./ logo -->
 
-    <h5>Sign in</h5>
+    <h5>Đăng nhập</h5>
 
     <!-- form -->
     <form action="{{route('auth.doLogin')}}" method="POST">
     @csrf
         @if(Session::get('loi'))
             <div class="alert alert-danger">{{ Session::get('loi') }}</div>
+        @endif
+        @if(Session::get('xong'))
+            <div class="alert alert-success">{{ Session::get('xong') }}</div>
         @endif
         <div class="form-group">
             <input type="text" value="{{old('email')}}" name="email" class="form-control" placeholder="email"  autofocus>
@@ -56,13 +59,13 @@
         <div class="form-group d-flex justify-content-between">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Remember me</label>
+                <label class="custom-control-label" for="customCheck1">Duy trì đăng nhập</label>
             </div>
             <a href="reset-password.html">Reset password</a>
         </div>
-        <button class="btn btn-primary">Sign in</button>
+        <button class="btn btn-primary">Đăng nhập</button>
         <div class="my-5">
-            <p>Login with your social media account.</p>
+            <p>Hoặc sử dụng mạng xá hội.</p>
             <ul class="list-inline">
                 <li class="list-inline-item">
                     <a href="#" class="btn btn-floating btn-sm btn-facebook">
@@ -92,7 +95,7 @@
             </ul>
         </div>
         <div class="my-5">
-            <p>Don't have an account? <a href="signup">Sign up now!</a></p>
+            <p>Chưa có tài khoản ? <a href="signup">Đăng ký ngay!</a></p>
         </div>
     </form>
     <!-- ./ form -->

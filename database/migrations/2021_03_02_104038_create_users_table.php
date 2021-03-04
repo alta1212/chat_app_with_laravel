@@ -15,15 +15,15 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             //https://laravel.com/docs/8.x/migrations#column-method-text
-            $table->id();
-            $table->binary('avata');
-            $table->text('email');
-            $table->text('name');
-            $table->text('mota');
-            $table->text('phone');
-            $table->text('pass');
-            $table->text('diachi');
-            $table->timestamps();
+            // $table->id();
+            // $table->binary('avata');
+            // $table->text('email');
+            // $table->text('name');
+            // $table->text('mota');
+            // $table->text('phone');
+            // $table->text('pass');
+            // $table->text('diachi');
+            // $table->timestamps();
         });
     }
 
