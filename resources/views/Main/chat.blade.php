@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tyno Chat</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" href="{{asset('dist/media/img/favicon.png')}}" type="image/png">
@@ -113,10 +113,10 @@
                     <a href="login" data-intro-js="3" data-toggle="dropdown">
                         <figure class="avatar avatar-sm">
                         @if($dataUser->avata)
-                            <img src="{{ url('storage/'.$dataUser->avata) }}" class="rounded-circle" alt="image">
+                            <img id="avtimage" src="{{ url('storage/'.$dataUser->avata) }}" class="rounded-circle" alt="image">
                         @endif
                         @if(!$dataUser->avata)
-                            <img src="{{asset('dist/media/img/DefaultAvt.jpg')}}" class="rounded-circle" alt="image">
+                            <img id="avtimage" src="{{asset('dist/media/img/DefaultAvt.jpg')}}" class="rounded-circle" alt="image">
                         @endif
                         </figure>
                     </a>
@@ -1931,6 +1931,7 @@
         </div>
         <div class="chat-footer" data-intro-js="6">
             <form class="d-flex">
+                @CSRF
                 <div class="dropdown">
                     <button class="btn btn-light-info btn-floating mr-3" data-toggle="dropdown" title="Emoji"
                             type="button">
@@ -2980,7 +2981,7 @@
                             
                                 <div class="form-group">
                                     <label for="about-text" class="col-form-label">Hãy nói điều gì đó về bạn</label>
-                                    <textarea name="mota" value="{{$dataUser->mota}}" class="form-control" id="about-text"></textarea>
+                                    <input name="mota" value="{{$dataUser->mota}}" class="form-control" id="about-text"></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="about-text" class="col-form-label">Địa chỉ email(tên đăng nhập)</label>

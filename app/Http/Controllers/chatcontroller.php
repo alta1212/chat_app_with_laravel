@@ -31,7 +31,7 @@ class chatcontroller extends Controller
     {   
          $dataMes=boxchat::where('user1',session()->get('id')) 
             ->orWhere('user2',session()->get('id')) ->get();
-        dd($dataMes);
+       
         return $dataMes;
     }
     //hiển thị nội dung chat cuói dungf
@@ -55,5 +55,20 @@ class chatcontroller extends Controller
          
        // dd($dataMes);
         return $dataUser;
+    }
+
+
+    function sendMessenger(Request $r)
+    {  
+        $query=DB::table('message')->insert(
+            [
+               'sender' =>session()->get('id'),
+               'content' =>$r->data,//hash để mã hoá mật khẩu 
+               'type' =>$r->type,
+               "boxchatid"=>$r->boxchatid,
+               "time"=>now(),
+               
+            ]
+         );
     }
 }

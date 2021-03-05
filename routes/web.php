@@ -27,3 +27,4 @@ Route::get('/logout', [UserController::class,'logout']);
 Route::get('/chat', [chatcontroller::class,'chat'])->middleware("logIn");
 Route::post('/updateDataU', [UserController::class,'updateDataU'])->name('Main.updateDataU');
 Route::get('/loadMessengerBox', [chatcontroller::class,'loadMessengerBox'])->middleware("logIn");
+Route::post('/sendMessenger', [chatcontroller::class,'sendMessenger'])->middleware("logIn");
