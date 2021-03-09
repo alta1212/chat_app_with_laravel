@@ -36,6 +36,14 @@
 
     <!-- App styles -->
     <link rel="stylesheet" href="{{asset('dist/css/app.min.css')}}">
+
+
+    <!-- rtcCode -->
+    <script src="{{asset('RTC/dist/RTCMultiConnection.js')}}"></script>
+    <script src="{{asset('RTC/node_modules/webrtc-adapter/out/adapter.js')}}"></script>
+    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="{{asset('RTC/node_modules/fbr/FileBufferReader.js')}}"></script>
+    <script src="{{asset('dist/js/rtc.js')}}"></script>
 </head>
 <body>
 
@@ -1984,14 +1992,15 @@
                         <i class="mdi mdi-plus"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Location</a>
-                        <a href="#" class="dropdown-item">Attach</a>
-                        <a href="#" class="dropdown-item">Document</a>
-                        <a href="#" class="dropdown-item">File</a>
-                        <a href="#" class="dropdown-item">Video</a>
+                        <a href="#" class="dropdown-item">Vị trí</a>
+                        <label for="filetrans" class="dropdown-item">Chia sẻ file</label>
+                        <input style="display: none;" type="file" name="filetrans" id="filetrans">
+                        <label for="mediatrans" class="dropdown-item">Media</label>
+                        <input style="display: none;" type="file" name="" accept="audio/*,video/*,image/*"  id="mediatrans">
+                       
                     </div>
                 </div>
-                <input type="text" class="form-control form-control-main" placeholder="Write a message.">
+                <input type="text" class="form-control form-control-main" id="mes" placeholder="Write a message.">
                 <div>
                     <button class="btn btn-primary ml-2 btn-floating" type="submit">
                         <i class="mdi mdi-send"></i>
@@ -2354,7 +2363,7 @@
                         <img src="{{asset('dist/media/img/DefaultAvt.jpg')}}" class="rounded-circle" alt="image">
                     @endif
                     </figure>
-                    <h5 class="mb-1">{{$dataUser->name}}</h5>
+                    <h5 id="nameu" class="mb-1">{{$dataUser->name}}</h5>
                 </div>
                 @if($dataUser->mota)
                   <p class="text-muted">{{$dataUser->mota}}</p>
@@ -3033,7 +3042,187 @@
 <!-- Examples -->
 <script src="{{asset('dist/js/examples.min.js')}}"></script>
 
+<script>
+        $(document).ready(function(){
+            //gửi đi
+        /////////////////////
+            function n(e) {   
+                var html;
+                if(e.type=="text")
+                {
+                    html='<div class="message-item out">\
+                    <div class="message-avatar">\
+                        <figure class="avatar avatar-sm">\
+                            <img src="'+e.avatar+'" class="rounded-circle" alt="image">\
+                        </figure>\
+                        <div>\
+                            <h5>'+e.name+'</h5>\
+                            <div class="time">09:23 AM <i class="mdi mdi-check-all text-info ml-1"></i></div>\
+                        </div>\
+                    </div>\
+                    <div class="message-content">\
+                        <div class="message-text">'+e.text+'\
+                        </div>\
+                        <div class="dropdown">\
+                            <a href="#" data-toggle="dropdown">\
+                                <i class="mdi mdi-dots-horizontal"></i>\
+                            </a>\
+                            <div class="dropdown-menu dropdown-menu-right">\
+                                <a href="#" class="dropdown-item">Reply</a>\
+                                <a href="#" class="dropdown-item">Forward</a>\
+                                <a href="#" class="dropdown-item">Copy</a>\
+                                <a href="#" class="dropdown-item">Starred</a>\
+                                <a href="#" class="dropdown-item example-delete-message">Delete</a>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    </div>'
+                }
+                else if(e.type=="file")
+                {
+                    html='<div class="message-item out">\
+                            <div class="message-avatar">\
+                                <figure class="avatar avatar-sm">\
+                                    <img src="'+e.avatar+'" class="rounded-circle" alt="image">\
+                                </figure>\
+                                <div>\
+                                    <h5>'+e.name+'</h5>\
+                                    <div class="time">09:23 AM <i class="mdi mdi-check-all text-info ml-1"></i></div>\
+                                </div>\
+                            </div>\
+                            <div class="message-content message-file">\
+                                <div class="message-text d-flex">\
+                                    <div class="file-icon">\
+                                        <i class="mdi mdi-file-pdf-box-outline"></i>\
+                                    </div>\
+                                    <div>\
+                                        <div> '+e.name+'<small class="text-muted small">('+e.size+')</small></div>\
+                                        <ul class="list-inline mt-2">\
+                                            <li class="list-inline-item mb-0">\
+                                                <a href="#" class="btn btn-sm btn-light-success btn-floating" title="View">\
+                                                    <i class="mdi mdi-link"></i>\
+                                                </a>\
+                                            </li>\
+                                            <li class="list-inline-item mb-0">\
+                                                <a href="#" class="btn btn-sm btn-light-success btn-floating" title="Download">\
+                                                    <i class="mdi mdi-download"></i>\
+                                                </a>\
+                                            </li>\
+                                        </ul>\
+                                    </div>\
+                                </div>\
+                                <div class="dropdown">\
+                                    <a href="#" data-toggle="dropdown">\
+                                        <i class="mdi mdi-dots-horizontal"></i>\
+                                    </a>\
+                                    <div class="dropdown-menu">\
+                                        <a href="#" class="dropdown-item">Trả lời</a>\
+                                        <a href="#" class="dropdown-item">Chuyển tiếp</a>\
+                                        <a href="#" class="dropdown-item">sao chéo</a>\
+                                        <a href="#" class="dropdown-item">Starred</a>\
+                                        <a href="#" class="dropdown-item example-delete-message">Delete</a>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                          </div>';
+                }
+                else if(e.type=="image")
+                {
+                    html='<div class="message-item out">\
+                    <div class="message-avatar">\
+                        <figure class="avatar avatar-sm">\
+                        <img src="'+e.avatar+'" class="rounded-circle" alt="image">\
+                        </figure>\
+                        <div>\
+                            <h5>'+e.name+'</h5>\
+                            <div class="time">07:45 AM <i class="mdi mdi-check-all text-info ml-1"></i></div>\
+                        </div>\
+                    </div>\
+                    <div class="message-content">\
+                        <div>\
+                            <div class="message-content-images">\
+                                <a href="http://127.0.0.1:8000/dist/media/img/image1.jpg" data-fancybox="images">\
+                                    <img src="http://127.0.0.1:8000/dist/media/img/image1.jpg" alt="image">\
+                                </a>\
+                                <a href="http://127.0.0.1:8000/dist/media/img/image2.jpg" data-fancybox="images">\
+                                    <img src="http://127.0.0.1:8000/dist/media/img/image2.jpg" alt="image">\
+                                </a>\
+                                <a href="http://127.0.0.1:8000/dist/media/img/image3.jpg" data-fancybox="images">\
+                                    <img src="http://127.0.0.1:8000/dist/media/img/image3.jpg" alt="image">\
+                                </a>\
+                            </div>\
+                        </div>\
+                        <div class="dropdown">\
+                            <a href="#" data-toggle="dropdown">\
+                                <i class="mdi mdi-dots-horizontal"></i>\
+                            </a>\
+                            <div class="dropdown-menu dropdown-menu-right">\
+                                <a href="#" class="dropdown-item">Reply</a>\
+                                <a href="#" class="dropdown-item">Forward</a>\
+                                <a href="#" class="dropdown-item">Copy</a>\
+                                <a href="#" class="dropdown-item">Starred</a>\
+                                <a href="#" class="dropdown-item example-delete-message">Delete</a>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>'
+                }
+                $(".messages").append(html)
+            }
+        /////////////////////
+        //bấm gửi
+            $(".chat .chat-footer form").submit(function(e) {
+                e.preventDefault();
+            
+                var t = $(e.target).find("input[type=text].form-control-main"),
+                a = t.val();
+             
+                    var data={
+                        "data":a,
+                        "type":"text",
+                        "recipient":"1",
+                        "boxchatid":"1",
+                        "avatar":$("#avtimage").attr("src"),
+                        "name": $("#nameu").text()//sau này load đc tin nhắn sửa sau giờ mặc định gửi vào box 1
+                    }
 
+                //gửi dữ liệu vào csdl
+                $.ajax({
+                    url:"/sendMessenger",
+                    type:"post",
+                    data:data,
+                    success : function (e){
+                        
+                        connection.send(JSON.stringify(data));
+                     
+                        n({
+                            type: "text",
+                            text: a,
+                            avatar:$("#avtimage").attr("src"),
+                            name: $("#nameu").text()
+                        });
+                       
+                        //xoá nội dung chat trên text box
+                        t.val("");
+                        $(".chat .chat-body").scrollTop($(".chat .chat-body")[0].scrollHeight);
+                    },
+                    error : function (e){      
+                        as();
+                    }
+                });
+     
+     
+            });
+
+             
+   
+   
+   
+   
+   
+        });
+
+</script>
 
 </body>
 

@@ -63,12 +63,28 @@ class chatcontroller extends Controller
         $query=DB::table('message')->insert(
             [
                'sender' =>session()->get('id'),
-               'content' =>$r->data,//hash để mã hoá mật khẩu 
+               'content' =>$r->data,
                'type' =>$r->type,
                "boxchatid"=>$r->boxchatid,
                "time"=>now(),
                
             ]
          );
+    }
+
+    function filetrans(Request $r){
+        $fileName = time().'_'. $r->file->getClientOriginalName();
+        $r->file->storeAs('upload/file/'.session()->get('id'), $fileName, 'public');
+        return $r;
+        // $query=DB::table('message')->insert(
+        //     [
+        //        'sender' =>session()->get('id'),
+        //        'content' =>$r->data,
+        //        'type' =>$r->type,
+        //        "boxchatid"=>$r->boxchatid,
+        //        "time"=>now(),
+               
+        //     ]
+        //  );
     }
 }

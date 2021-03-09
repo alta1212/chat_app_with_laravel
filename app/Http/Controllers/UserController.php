@@ -129,6 +129,7 @@ class UserController extends Controller
           $fileName = time().'_'.$request->avt->getClientOriginalName();
             
           $file=$request->file('avt')->storeAs('avataUser', $fileName, 'public');
+          dd($request->file('avt'));
        }
       //https://packagist.org/packages/propaganistas/laravel-phone
         $request->validate([

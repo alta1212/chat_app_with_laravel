@@ -3877,17 +3877,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
             // www.RTCMultiConnection.org/docs/onFileStart/
             connection.onFileStart = function(file) {
-                var div = document.createElement('div');
-                div.title = file.name;
-                div.innerHTML = '<label>0%</label> <progress></progress>';
-
-                if (file.remoteUserId) {
-                    div.innerHTML += ' (Sharing with:' + file.remoteUserId + ')';
-                }
-
-                if (!connection.filesContainer) {
-                    connection.filesContainer = document.body || document.documentElement;
-                }
+              z
 
                 connection.filesContainer.insertBefore(div, connection.filesContainer.firstChild);
 
